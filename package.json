@@ -1,0 +1,15 @@
+{
+  "name": "discordsrv",
+  "version": "2.0.0",
+  "description": "A bot for Minecraft and Discord",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "grandma77",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^13.5.0",
+    "g": "^2.0.1"
+  }
+}
