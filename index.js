@@ -19,6 +19,7 @@ const client = new Discord.Client({
 })
 
 client.on("ready", () => {
+    client.user.setActivity("g7/help", { type: "WATCHING" })
     console.log(`${client.user.tag} is online`)})
 
     client.on("messageCreate", (message) =>{
@@ -29,11 +30,21 @@ client.on("ready", () => {
 
 const welcomeChannelId= "926213293595578388"
 
+const defaultRoleId= "926202709382668338"
+
 client.on("guildMemberAdd", async (member) => {
     const img = await generateImage(member)
     member.guild.channels.cache.get(welcomeChannelId).send({
         content: `Welcome ,<@${member.id}> to the server!`,
         files: [img]
+    })
+
+    member.roles.add(defaultRoleId)
+})
+
+client.on("guildMemberRemove", (member) => {
+    member.guild.channels.cache.get(welcomeChannelId).send({
+        content: "We are sad to see you go <@${member.id}>"
     })
 })
 
