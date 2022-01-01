@@ -1,1 +1,1 @@
-# DiscordSRV_g7-bot
+# Discord bot

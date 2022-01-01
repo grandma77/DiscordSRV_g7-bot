@@ -1,21 +1,40 @@
 const Discord = require ("discord.js")
-require("dotenv").config()
+
+const config = require("./config.json")
+
+const generateImage = require("./generateImage.js")
 
 const client = new Discord.Client({
     intents: [
         "GUILDS",
         "GUILD_MESSAGES",
+        "GUILD_MEMBERS",
+        "GUILD_PRESENCES",
+        "GUILD_INVITES",
+        "GUILD_BANS",
+        "DIRECT_MESSAGES",
+        "GUILD_VOICE_STATES",
+        "GUILD_SCHEDULED_EVENTS"
     ]
 })
 
 client.on("ready", () => {
     console.log(`${client.user.tag} is online`)})
 
-client.on("messageCreate", (message) =>{
+    client.on("messageCreate", (message) =>{
     if (message.content == "g7/help"){
         message.reply("This bot is being worked on right now")
     }
 })
 
-client.login(procces.env.TOKEN)
+const welcomeChannelId= "926213293595578388"
 
+client.on("guildMemberAdd", async (member) => {
+    const img = await generateImage(member)
+    member.guild.channels.cache.get(welcomeChannelId).send({
+        content: `Welcome ,<@${member.id}> to the server!`,
+        files: [img]
+    })
+})
+
+client.login(config.token)
