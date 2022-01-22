@@ -35,8 +35,9 @@ client.loadEvents(bot, false)
 module.exports = bot
 
 client.on("ready", () => {
-    client.user.setActivity("g7/help", { type: "WATCHING" })
-    console.log(`${client.user.tag} is online`)})
+    client.user.setStatus("online"),
+    client.user.setActivity("g7/help", { type : "WATCHING"})
+})
 
 client.on("messageCreate", (message) =>{
     if (message.content == `${config.prefix}help`){
