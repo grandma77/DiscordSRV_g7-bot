@@ -41,29 +41,5 @@ client.on("ready", () => {
     client.user.setActivity("g7/help", { type : "WATCHING"})
 })
 
-client.on("messageCreate", (message) =>{
-    if (message.content == `${config.prefix}help`){
-        message.reply("This bot is being worked on right now")
-    }
-    if (message.content == `${config.prefix}ip`){
-        message.reply(`Bedrock: ${config.minecraftBIP}  Java ${config.minecraftIP}`)
-    }
-})
-
-client.on("guildMemberAdd", async (member) => {
-    const img = await generateImage(member)
-    member.guild.channels.cache.get(config.welcomeChannelId).send({
-        content: `Welcome ,<@${member.id}> to our server! Read the <#${config.rulesChannelId}>`,
-        files: [img]
-    })
-
-    member.roles.add(config.defaultRoleId)
-})
-
-client.on("guildMemberRemove", () => {
-    member.guild.channels.cache.get(config.welcomeChannelId).send({
-        content: `We are sorry to see u go <@${member.id}>`
-    })
-})
 
 client.login(config.token)
