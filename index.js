@@ -14,37 +14,52 @@ const client = new Discord.Client({
         "GUILD_BANS",
         "DIRECT_MESSAGES",
         "GUILD_VOICE_STATES",
-        "GUILD_SCHEDULED_EVENTS"
+        "GUILD_SCHEDULED_EVENTS",
+        "GUILD_INTEGRATIONS"
     ]
 })
+
+let bot = {
+    client,
+    prefix: "g7/",
+    owners: "718471510796533911"
+}
+
+client.commands = new Discord.Collection()
+client.events = new Discord.Collection()
+
+client.loadEvents = (bot, reload) => require("./handlers/events")(bot, reload)
+
+client.loadEvents(bot, false)
+
+module.exports = bot
 
 client.on("ready", () => {
     client.user.setActivity("g7/help", { type: "WATCHING" })
     console.log(`${client.user.tag} is online`)})
 
-    client.on("messageCreate", (message) =>{
-    if (message.content == "g7/help"){
+client.on("messageCreate", (message) =>{
+    if (message.content == `${config.prefix}help`){
         message.reply("This bot is being worked on right now")
+    }
+    if (message.content == `${config.prefix}ip`){
+        message.reply(`Bedrock: ${config.minecraftBIP}  Java ${config.minecraftIP}`)
     }
 })
 
-const welcomeChannelId= "926213293595578388"
-
-const defaultRoleId= "926202709382668338"
-
 client.on("guildMemberAdd", async (member) => {
     const img = await generateImage(member)
-    member.guild.channels.cache.get(welcomeChannelId).send({
-        content: `Welcome ,<@${member.id}> to the server!`,
+    member.guild.channels.cache.get(config.welcomeChannelId).send({
+        content: `Welcome ,<@${member.id}> to our server! Read the <#${config.rulesChannelId}>`,
         files: [img]
     })
 
-    member.roles.add(defaultRoleId)
+    member.roles.add(config.defaultRoleId)
 })
 
-client.on("guildMemberRemove", (member) => {
-    member.guild.channels.cache.get(welcomeChannelId).send({
-        content: "We are sad to see you go <@${member.id}>"
+client.on("guildMemberRemove", () => {
+    member.guild.channels.cache.get(config.welcomeChannelId).send({
+        content: `We are sorry to see u go <@${member.id}>`
     })
 })
 
